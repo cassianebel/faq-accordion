@@ -1,9 +1,9 @@
 const regions = document.querySelectorAll('div[role="region"]');
 const buttons = document.querySelectorAll("button");
 
-function toggleAccordian() {
-  const isOpen = this.getAttribute("aria-expanded") === "true";
-  const controls = this.getAttribute("aria-controls");
+function toggleAccordian(e) {
+  const isOpen = e.currentTarget.getAttribute("aria-expanded") === "true";
+  const controls = e.currentTarget.getAttribute("aria-controls");
   const answer = document.getElementById(controls);
 
   if (!isOpen) {
@@ -16,7 +16,7 @@ function toggleAccordian() {
       answer.style.maxHeight = answer.scrollHeight + "px";
     });
 
-    this.setAttribute("aria-expanded", "true");
+    e.currentTarget.setAttribute("aria-expanded", "true");
 
     answer.addEventListener(
       "transitionend",
@@ -32,7 +32,7 @@ function toggleAccordian() {
       answer.style.maxHeight = "0";
     });
 
-    this.setAttribute("aria-expanded", "false");
+    e.currentTarget.setAttribute("aria-expanded", "false");
 
     answer.addEventListener(
       "transitionend",
