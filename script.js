@@ -6,47 +6,49 @@ function toggleAccordian(e) {
   const controls = e.currentTarget.getAttribute("aria-controls");
   const answer = document.getElementById(controls);
 
-  if (!isOpen) {
-    // start opening
-    answer.hidden = false;
-    answer.style.maxHeight = "0";
-
-    requestAnimationFrame(() => {
-      void answer.offsetHeight; // force reflow
-      answer.style.maxHeight = answer.scrollHeight + "px";
-    });
-
-    e.currentTarget.setAttribute("aria-expanded", "true");
-
-    answer.addEventListener(
-      "transitionend",
-      () => {
-        answer.style.maxHeight = null; // let natural height take over
-      },
-      { once: true }
-    );
-  } else {
-    // start closing
-    answer.style.maxHeight = answer.scrollHeight + "px";
-    requestAnimationFrame(() => {
+  if (answer) {
+    if (!isOpen) {
+      // start opening
+      answer.hidden = false;
       answer.style.maxHeight = "0";
-    });
 
-    e.currentTarget.setAttribute("aria-expanded", "false");
+      requestAnimationFrame(() => {
+        void answer.offsetHeight; // force reflow
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      });
 
-    answer.addEventListener(
-      "transitionend",
-      () => {
-        answer.hidden = true;
-        answer.style.maxHeight = null;
-      },
-      { once: true }
-    );
+      e.currentTarget.setAttribute("aria-expanded", "true");
+
+      answer.addEventListener(
+        "transitionend",
+        () => {
+          answer.style.maxHeight = ""; // let natural height take over
+        },
+        { once: true }
+      );
+    } else {
+      // start closing
+      answer.style.maxHeight = answer.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        answer.style.maxHeight = "0";
+      });
+
+      e.currentTarget.setAttribute("aria-expanded", "false");
+
+      answer.addEventListener(
+        "transitionend",
+        () => {
+          answer.hidden = true;
+          answer.style.maxHeight = "";
+        },
+        { once: true }
+      );
+    }
   }
 }
 
 regions.forEach((region) => {
-  region.setAttribute("hidden", "true");
+  region.hidden = true;
 });
 
 buttons.forEach((button) => {
